@@ -4,6 +4,15 @@ import { games } from "@/data/games";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+// 1. هذه الدالة ضرورية جداً مع cacheComponents
+// تخبر Next.js بكل الروابط الثابتة لكي يبنيها مسبقاً
+export async function generateStaticParams() {
+  return games.map((game) => ({
+    slug: game.slug,
+  }));
+}
+
+// 2. المكون الرئيسي (الصفحة)
 export default async function GameDetails({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const game = games.find((g) => g.slug === resolvedParams.slug);
