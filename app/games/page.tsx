@@ -5,10 +5,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 export default function GameDetails({ params }: { params: { slug: string } }) {
+  // البحث عن اللعبة بناءً على الرابط
   const game = games.find((g) => g.slug === params.slug);
+  
+  // إذا لم توجد اللعبة، اعرض صفحة 404
   if (!game) notFound();
 
-  // إعداد روابط الواتساب
+  // إعداد روابط الواتساب (سيتم إزالة أي رموز أو مسافات من الأرقام)
   const sudanLink = `https://wa.me/${game.sudanPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
   const rwandaLink = `https://wa.me/${game.rwandaPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
 
