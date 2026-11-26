@@ -5,15 +5,16 @@ import { games } from "@/data/games";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-// 1. إخبار Next.js بكل الروابط الثابتة مسبقاً
+// 1. إخبار Next.js بكل الروابط الثابتة مسبقاً (مطلوب مع Cache Components)
 export async function generateStaticParams() {
   return games.map((game) => ({
     slug: game.slug,
   }));
 }
 
-// 2. فصل المحتوى الديناميكي في مكون منفصل
-async function GameContent({ params }: { params: Promise<{ slug: string }> }) {
+// 2. فصل المحتوى الذي يقرأ params في مكون منفصل
+async function GameDetailsContent({ params }: { params: Promise<{ slug: string }> }) {
+  // 3. انتظار الـ params داخل هذا المكون (سيتم تغليفه بـ Suspense لاحقاً)
   const resolvedParams = await params;
   const game = games.find((g) => g.slug === resolvedParams.slug);
   
@@ -24,7 +25,6 @@ async function GameContent({ params }: { params: Promise<{ slug: string }> }) {
 
   return (
     <main className="flex-grow container mx-auto px-6 py-28 relative z-10">
-      
       <Link href="/games" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-8 font-semibold transition-colors">
         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         العودة للمكتبة
@@ -86,18 +86,17 @@ async function GameContent({ params }: { params: Promise<{ slug: string }> }) {
           ))}
         </div>
       </div>
-
     </main>
   );
 }
 
-// 3. المكون الرئيسي يغلف المحتوى الديناميكي بـ Suspense
+// 4. المكون الرئيسي (Page) يغلف المحتوى الديناميكي بـ Suspense
 export default function GameDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a]">
       <Navbar />
-      <Suspense fallback={<div className="flex-grow flex items-center justify-center text-white">جارٍ تحميل اللعبة...</div>}>
-        <GameContent params={params} />
+      <Suspense fallback={<div className="flex-grow flex items-center justify-center text-white text-xl">جارٍ تحميل اللعبة...</div>}>
+        <GameDetailsContent params={params} />
       </Suspense>
       <Footer />
     </div>
