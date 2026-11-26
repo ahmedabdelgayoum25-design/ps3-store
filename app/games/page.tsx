@@ -24,7 +24,6 @@ export default function GameDetails({ params }: { params: { slug: string } }) {
         </Link>
 
         <div className="flex flex-col lg:flex-row gap-12 bg-[#111111] p-8 md:p-12 rounded-3xl border border-gray-800 shadow-2xl relative overflow-hidden">
-          {/* توهج خلفي */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none"></div>
 
           <div className="lg:w-1/3 w-full max-w-sm mx-auto relative z-10">
