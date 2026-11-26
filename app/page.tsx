@@ -1,86 +1,82 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GameCard from "@/components/GameCard";
 import { games } from "@/data/games";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
+export async function generateStaticParams() {
+  return games.map((game) => ({
+    slug: game.slug,
+  }));
+}
+
+export default async function GameDetails({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const game = games.find((g) => g.slug === resolvedParams.slug);
+  
+  if (!game) notFound();
+
+  const sudanLink = `https://wa.me/${game.sudanPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
+  const rwandaLink = `https://wa.me/${game.rwandaPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#0a0a0a]">
       <Navbar />
-      
-      <main className="flex-grow pt-20">
-        {/* Hero Section */}
-        <section className="relative py-32 flex items-center justify-center overflow-hidden">
-          {/* تأثير التوهج الخلفي */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
-          
-          <div className="container mx-auto px-6 relative z-10 text-center">
-            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-6">
-              الإصدار الكلاسيكي يعود من جديد
-            </span>
-            <h1 className="text-5xl md:text-7xl font-black mb-6 text-white tracking-tight leading-tight">
-              استكشف عالم <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                PlayStation 3
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              حمل أفضل ألعاب PS3 بصيغة ISO و PowerISO. جودة عالية، روابط مباشرة، وتجربة مستخدم لا مثيل لها.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/games" className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-full transition-all shadow-lg shadow-blue-600/30 hover:-translate-y-1">
-                تصفح المكتبة
-              </Link>
-              <Link href="/about" className="bg-[#1a1a1a] text-white border border-gray-800 hover:bg-gray-800 font-bold py-4 px-10 rounded-full transition-all hover:-translate-y-1">
-                اقرأ المزيد
-              </Link>
-            </div>
-          </div>
-        </section>
+      <main className="flex-grow container mx-auto px-6 py-28 relative z-10">
+        {/* ... نفس محتوى الصفحة الذي كان لديك سابقاً ... */}
+        <Link href="/games" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-8 font-semibold transition-colors">
+          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          العودة للمكتبة
+        </Link>
 
-        {/* Stats Section */}
-        <section className="border-y border-gray-800 bg-[#111111]">
-          <div className="container mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <p className="text-4xl font-black text-white mb-2">500+</p>
-              <p className="text-gray-400 font-medium text-sm">لعبة متاحة</p>
+        <div className="flex flex-col lg:flex-row gap-12 bg-[#111111] p-8 md:p-12 rounded-3xl border border-gray-800 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+          <div className="lg:w-1/3 w-full max-w-sm mx-auto relative z-10">
+            <img src={game.cover} alt={game.title} className="w-full rounded-2xl shadow-2xl border border-gray-700" />
+          </div>
+          <div className="lg:w-2/3 flex flex-col justify-center relative z-10">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-white">{game.title}</h1>
+              <span className="bg-yellow-400 text-black px-3 py-1 rounded-lg font-bold text-sm shadow-md">⭐ {game.rating}</span>
             </div>
-            <div>
-              <p className="text-4xl font-black text-white mb-2">1M+</p>
-              <p className="text-gray-400 font-medium text-sm">عملية تحميل</p>
+            <p className="text-gray-300 text-lg leading-relaxed mb-8">{game.description}</p>
+            <div className="grid grid-cols-2 gap-4 mb-10">
+              <div className="bg-[#1a1a1a] p-4 rounded-xl text-center border border-gray-800">
+                <span className="block text-gray-500 text-sm mb-1">الحجم</span>
+                <span className="font-bold text-xl text-white">{game.size}</span>
+              </div>
+              <div className="bg-[#1a1a1a] p-4 rounded-xl text-center border border-gray-800">
+                <span className="block text-gray-500 text-sm mb-1">الصيغة</span>
+                <span className="font-bold text-xl text-white">ISO</span>
+              </div>
             </div>
-            <div>
-              <p className="text-4xl font-black text-white mb-2">50K+</p>
-              <p className="text-gray-400 font-medium text-sm">مستخدم نشط</p>
-            </div>
-            <div>
-              <p className="text-4xl font-black text-white mb-2">100%</p>
-              <p className="text-gray-400 font-medium text-sm">روابط آمنة</p>
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-white mb-2">اطلب اللعبة الآن:</h3>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href={sudanLink} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-900/30 hover:-translate-y-1">
+                  <span>اطلب عبر رقم السودان</span>
+                  <span className="text-2xl">🇸🇩</span>
+                </a>
+                <a href={rwandaLink} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:-translate-y-1">
+                  <span>اطلب عبر رقم رواندا</span>
+                  <span className="text-2xl">🇷🇼</span>
+                </a>
+              </div>
+              <p className="text-center text-gray-500 text-sm mt-4">سيتم تحويلك إلى الواتساب لإتمام عملية الطلب ودفع السعر ({game.price}).</p>
             </div>
           </div>
-        </section>
-
-        {/* Latest Games */}
-        <section className="container mx-auto px-6 py-20">
-          <div className="flex justify-between items-end mb-10">
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-2">أحدث الإضافات</h2>
-              <p className="text-gray-400">أحدث الألعاب التي تمت إضافتها للمكتبة</p>
-            </div>
-            <Link href="/games" className="text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-2 bg-blue-500/10 py-2 px-4 rounded-lg">
-              عرض الكل
-            </Link>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {games.map((game) => (
-              <GameCard key={game.id} game={game} />
+        </div>
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-white border-r-4 border-blue-600 pr-4">صور من داخل اللعبة</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {game.screenshots.map((img, index) => (
+              <div key={index} className="relative aspect-video rounded-xl overflow-hidden border border-gray-800 hover:border-blue-500 transition-all cursor-pointer group shadow-lg">
+                <img src={img} alt={`صورة ${index + 1}`} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+              </div>
             ))}
           </div>
-        </section>
+        </div>
       </main>
-
       <Footer />
     </div>
   );
