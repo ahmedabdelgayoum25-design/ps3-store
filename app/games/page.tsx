@@ -4,16 +4,21 @@ import { games } from "@/data/games";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-// 1. أضفنا async هنا
+// 1. هذه الدالة تخبر Next.js بالروابط الثابتة مسبقاً لحل مشكلة البناء
+export async function generateStaticParams() {
+  return games.map((game) => ({
+    slug: game.slug,
+  }));
+}
+
 export default async function GameDetails({ params }: { params: Promise<{ slug: string }> }) {
-  // 2. أضفنا await هنا لاستخراج قيمة slug
+  // 2. انتظار الـ params (ميزة Next.js 15/16)
   const resolvedParams = await params;
-  
-  // 3. البحث باستخدام القيمة المستخرجة
   const game = games.find((g) => g.slug === resolvedParams.slug);
   
   if (!game) notFound();
 
+  // إعداد روابط الواتساب
   const sudanLink = `https://wa.me/${game.sudanPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
   const rwandaLink = `https://wa.me/${game.rwandaPhone.replace(/\D/g, '')}?text=مرحباً، أريد طلب لعبة ${game.title}`;
 
@@ -54,10 +59,12 @@ export default async function GameDetails({ params }: { params: Promise<{ slug: 
               </div>
             </div>
 
+            {/* أزرار الطلب */}
             <div className="space-y-4">
               <h3 className="text-xl font-bold text-white mb-2">اطلب اللعبة الآن:</h3>
               
               <div className="flex flex-col sm:flex-row gap-4">
+                {/* زر السودان */}
                 <a 
                   href={sudanLink}
                   target="_blank"
@@ -68,6 +75,7 @@ export default async function GameDetails({ params }: { params: Promise<{ slug: 
                   <span className="text-2xl">🇸🇩</span>
                 </a>
 
+                {/* زر رواندا */}
                 <a 
                   href={rwandaLink}
                   target="_blank"
@@ -84,6 +92,7 @@ export default async function GameDetails({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
+        {/* معرض الصور */}
         <div className="mt-20">
           <h2 className="text-3xl font-bold mb-8 text-white border-r-4 border-blue-600 pr-4">صور من داخل اللعبة</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
