@@ -13,36 +13,39 @@ interface GameCardProps {
 
 export default function GameCard({ game }: GameCardProps) {
   return (
-    <Link href={`/games/${game.slug}`} className="group relative rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 hover:border-blue-500 transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2">
-      <div className="aspect-[3/4] relative w-full overflow-hidden bg-gray-800">
+    <Link href={`/games/${game.slug}`} className="group flex flex-col bg-[#111111] rounded-2xl overflow-hidden border border-gray-800 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-1">
+      <div className="relative aspect-[3/4] overflow-hidden">
         <img 
           src={game.cover} 
           alt={game.title} 
-          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out"
+          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 ease-out"
           loading="lazy"
         />
         
-        {game.isNew && (
-          <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-lg z-10 animate-pulse">
-            جديد
-          </div>
-        )}
-
-        <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-yellow-400 text-xs font-bold px-2 py-1 rounded-md shadow-lg z-10 flex items-center gap-1">
-          ⭐ {game.rating}
-        </div>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-          <span className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-            عرض التفاصيل
+        {/* شارات */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
+          {game.isNew && (
+            <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow-lg">
+              جديد
+            </span>
+          )}
+          <span className="bg-black/80 backdrop-blur-md text-yellow-400 text-xs font-bold px-2 py-1 rounded shadow-lg flex items-center gap-1 w-max">
+            ⭐ {game.rating}
           </span>
         </div>
+
+        {/* تأثير الـ Hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
-      <div className="p-4 relative z-10 bg-gray-900 transition-colors duration-300">
-        <h3 className="text-lg font-bold text-white truncate group-hover:text-blue-400 transition-colors">{game.title}</h3>
-        <div className="flex justify-between items-center mt-2 text-sm text-gray-400">
-          <span className="bg-gray-800 px-2 py-1 rounded text-xs">ISO</span>
-          <span>{game.size}</span>
+      
+      <div className="p-5 flex flex-col flex-grow relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        
+        <h3 className="text-lg font-bold text-white mb-1 truncate group-hover:text-blue-400 transition-colors">{game.title}</h3>
+        
+        <div className="mt-auto pt-4 flex justify-between items-center text-sm">
+          <span className="bg-gray-800/50 text-gray-300 px-2 py-1 rounded text-xs font-medium border border-gray-700">ISO</span>
+          <span className="text-gray-400">{game.size}</span>
         </div>
       </div>
     </Link>
