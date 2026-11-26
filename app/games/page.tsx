@@ -4,15 +4,13 @@ import { games } from "@/data/games";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-// 1. هذه الدالة ضرورية جداً مع cacheComponents
-// تخبر Next.js بكل الروابط الثابتة لكي يبنيها مسبقاً
+// 1. هذه الدالة ضرورية جداً لبناء الصفحات
 export async function generateStaticParams() {
   return games.map((game) => ({
     slug: game.slug,
   }));
 }
 
-// 2. المكون الرئيسي (الصفحة)
 export default async function GameDetails({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const game = games.find((g) => g.slug === resolvedParams.slug);
@@ -63,22 +61,12 @@ export default async function GameDetails({ params }: { params: Promise<{ slug: 
               <h3 className="text-xl font-bold text-white mb-2">اطلب اللعبة الآن:</h3>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <a 
-                  href={sudanLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-900/30 hover:-translate-y-1"
-                >
+                <a href={sudanLink} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-green-900/30 hover:-translate-y-1">
                   <span>اطلب عبر رقم السودان</span>
                   <span className="text-2xl">🇸🇩</span>
                 </a>
 
-                <a 
-                  href={rwandaLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:-translate-y-1"
-                >
+                <a href={rwandaLink} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:-translate-y-1">
                   <span>اطلب عبر رقم رواندا</span>
                   <span className="text-2xl">🇷🇼</span>
                 </a>
