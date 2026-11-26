@@ -2,9 +2,10 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-gray-800">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/80 backdrop-blur-lg border-b border-slate-700">
       <div className="container mx-auto px-6 h-20 flex justify-between items-center">
         
+        {/* الشعار */}
         <Link href="/" className="text-2xl font-black text-white flex items-center gap-3 group">
           <div className="bg-blue-600 p-2 rounded-xl group-hover:bg-blue-500 transition-colors">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,11 +16,12 @@ export default function Navbar() {
           <span>PS3 Store</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 font-medium text-gray-300">
+        {/* الروابط */}
+        <div className="hidden md:flex items-center gap-8 font-medium text-slate-300">
           <Link href="/" className="hover:text-white transition-colors">الرئيسية</Link>
           <Link href="/games" className="hover:text-white transition-colors">المكتبة</Link>
           <Link href="/about" className="hover:text-white transition-colors">من نحن</Link>
-          <Link href="/contact" className="hover:text-white transition-colors">التواصل</Link> {/* تم تغيير الاسم */}
+          <Link href="/contact" className="hover:text-white transition-colors">التواصل</Link>
         </div>
       </div>
     </nav>

@@ -22,6 +22,7 @@ export default function GameCard({ game }: GameCardProps) {
           loading="lazy"
         />
         
+        {/* شارات */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
           {game.isNew && (
             <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow-lg">
@@ -33,6 +34,7 @@ export default function GameCard({ game }: GameCardProps) {
           </span>
         </div>
 
+        {/* تأثير الـ Hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#1e293b] via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
       

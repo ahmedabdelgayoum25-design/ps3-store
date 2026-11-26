@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0f172a]"> {/* تم تطبيق الثيم الأزرق */}
+    <div className="min-h-screen flex flex-col bg-[#0f172a]">
       <Navbar />
       <main className="flex-grow container mx-auto px-6 py-28 flex justify-center items-center relative overflow-hidden">
         
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
               </div>
               <h3 className="text-white font-bold text-lg mb-2">رقم التواصل</h3>
-              <a href="tel:+250000000000" className="text-slate-400 hover:text-green-400 transition-colors" dir="ltr">+250 000 000 000</a>
+              <a href="tel:+250796581584" className="text-slate-400 hover:text-green-400 transition-colors" dir="ltr">+250 796 581 584</a>
             </div>
           </div>
         </div>
